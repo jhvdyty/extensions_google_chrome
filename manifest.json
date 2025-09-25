@@ -1,0 +1,11 @@
+{
+    "manifest_version": 3,
+    "name": "моё тестовое расширение",
+    "description": "простой пример расширения для chrome",
+    "version": "1.0",
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "icon.png"
+    },
+    "permissions": []
+}
