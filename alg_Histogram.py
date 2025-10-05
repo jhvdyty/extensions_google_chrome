@@ -49,13 +49,16 @@ def find_similar_by_histogram(target_image, image_folder, threshold=0.5):
 
     return sorted(similar_images, key=lambda x: x[1], reverse=True)
 
-
 print("image download")
-#print(find_similar_by_histogram("input/2.jpg", "replacement", 0.3))     
+#print(find_similar_by_histogram("input/2.jpg", "replacement", 0.3))  
+
+print(find_similar_by_histogram("input/ugliest-people-in-the-world-8-62628152.jpg", "replacement", 0.6))     
 
 downloader = DuckDuckGoImageDownloader()
 downloaded = downloader.search_and_download(
-    query="sunset over mountains",
-    image_folder="replacement",
-    count=5
+    query="ugly girl",
+    image_folder="input",
+    count=50
 )
+
+print(find_similar_by_histogram("input/ugliest-people-in-the-world-8-62628152.jpg", "replacement", 0.8))  

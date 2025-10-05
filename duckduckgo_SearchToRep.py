@@ -41,7 +41,7 @@ class DuckDuckGoImageDownloader:
                         img = img.convert('RGB')
                     img.save(save_path)
                     downloaded.append(save_path)
-                time.sleep(1)
+                time.sleep(0.05)
             except Exception as e:
                 print(f"error {i+1}: {e}")
                 continue
