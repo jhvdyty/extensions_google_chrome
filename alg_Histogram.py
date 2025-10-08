@@ -56,9 +56,9 @@ print(find_similar_by_histogram("input/ugliest-people-in-the-world-8-62628152.jp
 
 downloader = DuckDuckGoImageDownloader()
 downloaded = downloader.search_and_download(
-    query="ugly girl",
-    image_folder="input",
-    count=50
+    query="fat girl ",
+    image_folder="data/train/low_quality",
+    count=200 
 )
 
 print(find_similar_by_histogram("input/ugliest-people-in-the-world-8-62628152.jpg", "replacement", 0.8))  
