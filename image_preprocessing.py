@@ -36,7 +36,7 @@ def preprocess_dataset(input_dir, output_dir, max_size=1500, quality=95):
         if not subfolder.is_dir():
             continue
             
-        print(f"\n Обработка папки: {subfolder.name}")
+        print(f"\n Folder processing: {subfolder.name}")
         
         # создаем выходную папку
         output_subfolder = output_path / subfolder.name
@@ -50,7 +50,7 @@ def preprocess_dataset(input_dir, output_dir, max_size=1500, quality=95):
                      list(subfolder.glob('*.JPG')) + \
                      list(subfolder.glob('*.PNG'))
         
-        print(f"Найдено изображений: {len(image_files)}")
+        print(f"Images found: {len(image_files)}")
         
         # обрабатываем каждое изображение
         for img_path in tqdm(image_files, desc="Обработка"):
@@ -185,7 +185,7 @@ def split_dataset(input_dir, train_ratio=0.8):
         print(f"  Train: {len(train_images)}, Val: {len(val_images)}")
     
     print("="*60)
-    print(" Разделение завершено!")
+    print(" The separation is complete!")
     print(f" Train: {train_path}")
     print(f" Val: {val_path}")
 
@@ -195,11 +195,11 @@ def split_dataset(input_dir, train_ratio=0.8):
 if __name__ == '__main__':
     
     # проверяем структуру исходных данных
-    print(" Шаг 1: Проверка исходных данных")
+    print(" Step 1: Verify the source data")
     check_dataset_structure('data/raw')
     
     # предобрабатываем изображения
-    print("\n-O-  Шаг 2: Предобработка изображений")
+    print("\n-O-  Step 2: Image preprocessing")
     preprocess_dataset(
         input_dir='data/raw',
         output_dir='data/processed',
@@ -208,7 +208,7 @@ if __name__ == '__main__':
     )
     
     # разделяем на train/val
-    print("\n Шаг 3: Разделение на train/val")
+    print("\n Step 3: Split into train/val")
     split_dataset('data/processed', train_ratio=0.8)
     
     # проверяем финальную структуру

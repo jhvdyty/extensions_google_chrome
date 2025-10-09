@@ -6,7 +6,7 @@ from PIL import Image
 from train_ai import LightweightClassifier, get_simple_transforms
 
 # === Настройки ===
-model_path = 'best_model_lightweight.pth'  # путь к сохранённой модели
+model_path = 'model_for_detect_main/best_model_lightweight.pth'  # путь к сохранённой модели
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # === Создание модели ===
@@ -18,7 +18,8 @@ model.eval()
 print(" Model successfully loaded!")
 
 # Пути
-image_path = 'replacement/1719900147189342620.jpg'  # любое изображение
+#image_path = 'data/val_for_stuff/low_quality/agGIKYs4mYs.jpg'  # любое изображение
+image_path = 'input/ugliest-people-in-the-world-8-62628152.jpg'
 class_names = ['Low Quality', 'High Quality']
 
 # Преобразования (должны совпадать с обучением)
