@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "AI Image Classifier",
+  "version": "1.0",
+  "description": "Image classification using ONNX model",
+  "permissions": ["storage"],
+  "web_accessible_resources": [
+    {
+      "resources": ["model_web.onnx"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}

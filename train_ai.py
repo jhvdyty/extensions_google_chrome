@@ -375,7 +375,7 @@ if __name__ == '__main__':
     print("Testing prediction on sample image...")
     print(f"{'='*50}")
     
-    # You can test with any image
+    # You can test with any image 
     test_image = 'test_image.jpg'
     if Path(test_image).exists():
         predicted_class, confidence = predict_image(

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONNX Model Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+</head>
+<body>
+    <h1>ONNX Model Inference Test</h1>
+    <input type="file" id="imageInput" accept="image/*">
+    <br><br>
+    <canvas id="canvas" width="128" height="128"></canvas>
+    <br>
+    <button onclick="runInference()">Run Inference</button>
+    <div id="result"></div>
+
+    <script>
+        let session = null;
+        
+        // Загружаем модель
+        async function loadModel() {
+            try {
+                session = await ort.InferenceSession.create('model_optimized.onnx');
+                console.log('Model loaded successfully');
+                document.getElementById('result').innerHTML = '<p>Model loaded!</p>';
+            } catch (e) {
+                console.error('Failed to load model:', e);
+                document.getElementById('result').innerHTML = '<p style="color:red;">✗ Failed to load model: ' + e + '</p>';
+            }
+        }
+        
+        // Обработка изображения
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.getElementById('canvas');
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, 128, 128);
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+        
+        // Запуск инференса
+        async function runInference() {
+            if (!session) {
+                alert('Model not loaded yet!');
+                return;
+            }
+            
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const imageData = ctx.getImageData(0, 0, 128, 128);
+            
+            // Преобразуем изображение в тензор [1, 3, 128, 128]
+            const [r, g, b] = [[], [], []];
+            for (let i = 0; i < imageData.data.length; i += 4) {
+                r.push(imageData.data[i] / 255.0);
+                g.push(imageData.data[i + 1] / 255.0);
+                b.push(imageData.data[i + 2] / 255.0);
+            }
+            
+            const inputTensor = new ort.Tensor('float32', [...r, ...g, ...b], [1, 3, 128, 128]);
+            
+            try {
+                const results = await session.run({ input: inputTensor });
+                const output = results.output.data;
+                
+                document.getElementById('result').innerHTML = 
+                    '<p><strong>Results:</strong></p>' +
+                    '<p>Class 0: ' + output[0].toFixed(4) + '</p>' +
+                    '<p>Class 1: ' + output[1].toFixed(4) + '</p>' +
+                    '<p><strong>Predicted:</strong> Class ' + (output[0] > output[1] ? 0 : 1) + '</p>';
+                    
+            } catch (e) {
+                console.error('Inference failed:', e);
+                document.getElementById('result').innerHTML = '<p style="color:red;">✗ Inference failed: ' + e + '</p>';
+            }
+        }
+        
+        // Загружаем модель при загрузке страницы
+        loadModel();
+    </script>
+</body>
+</html>
